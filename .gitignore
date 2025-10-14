@@ -52,3 +52,11 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+*.db
+*.db-shm
+*.db-wal
+*.vsidx
+*.suo
+Backgammon/Backgammon/wwwroot/css/bootstrap/bootstrap.min.css
+Backgammon/.vs/Backgammon/v17/DocumentLayout.backup.json
+Backgammon/.vs/Backgammon/v17/DocumentLayout.json

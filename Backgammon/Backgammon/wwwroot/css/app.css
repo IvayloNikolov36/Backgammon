@@ -1,0 +1,136 @@
+﻿/* WPF Blazor styles */
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+
+/* Styles */
+
+:root {
+    --color-light-peg: #e60c0c transparent;
+    --color-dark-peg: #880c0c transparent;
+    --color-light-checker: rgb(247, 240, 240);
+    --color-dark-cheker: rgb(125, 75, 75);
+    --cheker-size: 3.8rem;
+    --inner-checker-size: 2.6rem;
+    --peg-height: 17rem;
+}
+
+.container-fluid {
+    background-color: rgb(147, 47, 75);
+}
+
+.board-half {
+    background-color: rgb(51, 21, 49);
+    border: solid 1.563rem rgb(54, 13, 13);
+    width: 26.250rem;
+}
+
+.peg {
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 0 1.8rem var(--peg-height) 1.8rem;
+    border-color: transparent transparent var(--color-dark-peg) transparent;
+    z-index: 1;
+    position: relative;
+}
+
+.peg.up {
+    transform: rotate(0deg);
+}
+
+.peg.down {
+    transform: rotate(180deg);
+}
+
+.dark-peg {
+    border-color: var(--color-dark-peg);
+}
+
+.light-peg {
+    border-color: var(--color-light-peg);
+}
+
+.checker {
+    border-radius: 50%;
+    z-index: 10;
+    width: var(--cheker-size);
+    height: var(--cheker-size);
+    box-shadow: rgba(33, 32, 32, 0.4) 0px 30px 90px;
+    position: absolute;
+    margin-left: -1.9rem;
+}
+
+.checker.light {
+    background-color: var(--color-light-checker);
+}
+
+.checker.dark {
+    background-color: var(--color-dark-cheker);
+}
+
+.inner-checker {
+    border-radius: 50%;
+    z-index: 20;
+    width: var(--inner-checker-size);
+    height: var(--inner-checker-size);
+    position: absolute;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.inner-checker.light {
+    background-color: rgb(243, 225, 225);
+    border: 3px solid rgb(199, 185, 185);
+}
+
+.inner-checker.dark {
+    background-color: rgb(116, 61, 61);
+    border: 3px solid rgb(82, 36, 36);
+}
