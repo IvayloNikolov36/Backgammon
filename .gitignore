@@ -60,3 +60,5 @@ nunit-*.xml
 Backgammon/Backgammon/wwwroot/css/bootstrap/bootstrap.min.css
 Backgammon/.vs/Backgammon/v17/DocumentLayout.backup.json
 Backgammon/.vs/Backgammon/v17/DocumentLayout.json
+*.v2
+*.bin
