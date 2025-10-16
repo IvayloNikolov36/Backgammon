@@ -53,13 +53,13 @@ a, .btn-link {
 /* Styles */
 
 :root {
-    --color-light-peg: #e60c0c transparent;
-    --color-dark-peg: #880c0c transparent;
+    --color-light-point: #e60c0c transparent;
+    --color-dark-point: #880c0c transparent;
     --color-light-checker: rgb(247, 240, 240);
     --color-dark-cheker: rgb(125, 75, 75);
     --cheker-size: 3.8rem;
     --inner-checker-size: 2.6rem;
-    --peg-height: 17rem;
+    --point-height: 17rem;
 }
 
 .container-fluid {
@@ -72,30 +72,30 @@ a, .btn-link {
     width: 26.250rem;
 }
 
-.peg {
+.point {
     width: 0px;
     height: 0px;
     border-style: solid;
-    border-width: 0 1.8rem var(--peg-height) 1.8rem;
-    border-color: transparent transparent var(--color-dark-peg) transparent;
+    border-width: 0 1.8rem var(--point-height) 1.8rem;
+    border-color: transparent transparent var(--color-dark-point) transparent;
     z-index: 1;
     position: relative;
 }
 
-.peg.up {
+.point.up {
     transform: rotate(0deg);
 }
 
-.peg.down {
+.point.down {
     transform: rotate(180deg);
 }
 
-.dark-peg {
-    border-color: var(--color-dark-peg);
+.dark-point {
+    border-color: var(--color-dark-point);
 }
 
-.light-peg {
-    border-color: var(--color-light-peg);
+.light-point {
+    border-color: var(--color-light-point);
 }
 
 .checker {
