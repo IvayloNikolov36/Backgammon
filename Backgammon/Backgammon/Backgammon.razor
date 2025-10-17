@@ -1,17 +1,30 @@
 ﻿@using WpfBlazor.Enums;
 
 @{
-    string lightPointClass = "light-point";
-    string darkPointClass = "dark-point";
-
-    string GetPointStyle(int index)
+    void RenderPoint(int pointNumber, PointSide pointSide)
     {
-        return index % 2 == 0 ? darkPointClass : lightPointClass;
+        int whiteCheckers = this.GetWhiteCheckersCount(pointNumber);
+        int blackCheckers = this.GetBlackCheckersCount(pointNumber);
+
+        string pointStyle = GetPointStyle(pointNumber, pointSide);
+
+        <div class="@(pointStyle)">
+            @if (whiteCheckers > 0 || blackCheckers > 0)
+            {
+                Color color = whiteCheckers > blackCheckers ? Color.White : Color.Black;
+                int cycleEnd = Math.Min(Math.Max(whiteCheckers, blackCheckers), 5);
+
+                @for (int c = 0; c < cycleEnd; c++)
+                {
+                    RenderChecker(color, c);
+                }
+            }
+        </div>
     }
 
     void RenderChecker(Color color, int index)
     {
-        string style = color == Color.White ? "checker light" : "checker dark";
+        string style = GetCheckerStyle(color);
 
         <div class="d-flex @(style) justify-content-center"
              style="margin-top: calc(var(--point-height) - @(index + 1) * var(--cheker-size));">
@@ -25,58 +38,33 @@
     <div class="d-flex flex-row justify-content-center gap-1">
 
         <div class="d-flex flex-column board-half p-1 gap-1">
-
             <div class="d-flex flex-row justify-content-center gap-1 mb-5">
-                @for (int i = 13; i <= 18; i++)
+                @foreach (int point in LeftTopPoints())
                 {
-                    <div class="point down @(GetPointStyle(i))"></div>
+                    RenderPoint(point, PointSide.Down);
                 }
             </div>
-
             <div class="d-flex flex-row justify-content-center gap-1 mt-5">
-                @for (int i = 12; i >= 7; i--)
+                @foreach (int point in LeftDownPoints())
                 {
-                    int checkersCount = this.board!.BlackCheckersPositions.Count(p => p.PointNumber == i);
-
-                    <div class="point up @(GetPointStyle(i))">
-                        @if (checkersCount > 0)
-                        {
-                            @for (int c = 0; c < Math.Min(checkersCount, 5); c++)
-                            {
-                                RenderChecker(Color.Black, c);
-                            }
-                        }
-                    </div>
+                    RenderPoint(point, PointSide.Up);
                 }
             </div>
         </div>
 
         <div class="d-flex flex-column board-half p-1 gap-1">
-
             <div class="d-flex flex-row justify-content-center gap-1 mb-5">
-                @for (int i = 19; i <= 24; i++)
+                @foreach (int point in RightTopPoints())
                 {
-                    int checkersCount = this.board!.WhiteCheckersPositions.Count(p => p.PointNumber == i);
-
-                    <div class="point down @(GetPointStyle(i))">
-                        @if (checkersCount > 0)
-                        {
-                            @for (int c = 0; c < Math.Min(checkersCount, 5); c++)
-                            {
-                                RenderChecker(Color.White, c);
-                            }
-                        }
-                    </div>
+                    RenderPoint(point, PointSide.Down);
                 }
             </div>
-
             <div class="d-flex flex-row justify-content-center gap-1 mt-5">
-                @for (int i = 6; i >= 1; i--)
+                @foreach (int point in RightBottomPoints())
                 {
-                    <div class="point up @(GetPointStyle(i))"></div>
+                    RenderPoint(point, PointSide.Up);
                 }
             </div>
-
         </div>
 
     </div>
