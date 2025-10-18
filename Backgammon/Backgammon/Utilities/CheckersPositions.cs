@@ -27,7 +27,7 @@ namespace WpfBlazor.Utilities
                 { 19, 5 }
             };
 
-        public static CheckerPosition[] GetInitialPositions(
+        public static Checker[] GetInitialPositions(
                 GameVariant gameVariant,
                 Color color)
         {
@@ -40,42 +40,56 @@ namespace WpfBlazor.Utilities
             };
         }
 
-        private static CheckerPosition[] GetPositionsForStandard(Color color)
+        private static Checker[] GetPositionsForStandard(Color color)
         {
             return color switch
             {
-                Color.White => GetStandardCheckersPositions(standardWhiteChekers),
-                Color.Black => GetStandardCheckersPositions(standardBlackCheckers),
+                Color.White => GetStandardCheckersPositions(
+                    standardWhiteChekers,
+                    color),
+                Color.Black => GetStandardCheckersPositions(
+                    standardBlackCheckers,
+                    color),
                 _ => throw new ArgumentException("Unhandled color type!")
             };
         }
 
-        private static CheckerPosition[] GetPositionsForRoseSpring(Color color)
+        private static Checker[] GetPositionsForRoseSpring(Color color)
         {
             return color switch
             {
-                Color.White => GetRosespringAndPlakotoCheckersPositions(RosespringWhiteCheckersPoint),
-                Color.Black => GetRosespringAndPlakotoCheckersPositions(RosespringBlackCheckersPoint),
+                Color.White => GetRosespringAndPlakotoCheckersPositions(
+                    RosespringWhiteCheckersPoint,
+                    color),
+                Color.Black => GetRosespringAndPlakotoCheckersPositions(
+                    RosespringBlackCheckersPoint,
+                    color),
                 _ => throw new ArgumentException("Unhandled color type!"),
             };
         }
 
-        private static CheckerPosition[] GetPositionsForPlakoto(Color color)
+        private static Checker[] GetPositionsForPlakoto(Color color)
         {
             return color switch
             {
-                Color.White => GetRosespringAndPlakotoCheckersPositions(PlakotoWhiteCheckersPoint),
-                Color.Black => GetRosespringAndPlakotoCheckersPositions(PlakotoBlackCheckersPoint),
+                Color.White => GetRosespringAndPlakotoCheckersPositions(
+                    PlakotoWhiteCheckersPoint,
+                    color),
+                Color.Black => GetRosespringAndPlakotoCheckersPositions(
+                    PlakotoBlackCheckersPoint,
+                    color),
                 _ => throw new ArgumentException("Unhandled color type!")
             };
         }
 
-        private static CheckerPosition[] GetStandardCheckersPositions(
-            Dictionary<int, int> standardChekersCountOnPosition)
+        private static Checker[] GetStandardCheckersPositions(
+            Dictionary<int, int> standardChekersCountOnPosition,
+            Color color)
         {
-            CheckerPosition[] checkerPositions = new CheckerPosition[CheckersPosed];
+            Checker[] checkerPositions = new Checker[CheckersPosed];
 
             int index = 0;
+            
             foreach (KeyValuePair<int, int> item in standardChekersCountOnPosition)
             {
                 int point = item.Key;
@@ -83,7 +97,7 @@ namespace WpfBlazor.Utilities
 
                 for (int i = 0; i < checkersCount; i++)
                 {
-                    CheckerPosition x = new(point, i);
+                    Checker x = new(color, point, i);
                     checkerPositions[index] = x;
                     index++;
                 }
@@ -92,13 +106,15 @@ namespace WpfBlazor.Utilities
             return checkerPositions;
         }
 
-        private static CheckerPosition[] GetRosespringAndPlakotoCheckersPositions(int point)
+        private static Checker[] GetRosespringAndPlakotoCheckersPositions(
+            int point,
+            Color color)
         {
-            CheckerPosition[] positions = new CheckerPosition[CheckersPosed];
+            Checker[] positions = new Checker[CheckersPosed];
 
             for (int i = 0; i < CheckersPosed; i++)
             {
-                positions[i] = new CheckerPosition(point, i);
+                positions[i] = new Checker(color, point, i);
             }
 
             return positions;

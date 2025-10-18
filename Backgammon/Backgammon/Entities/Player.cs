@@ -8,14 +8,13 @@ public class Player
 {
     private readonly Checker[] checkers;
 
-    public Player(Color color)
+    public Player(Color color, Checker[] checkers)
     {
-        this.checkers = new Checker[15];
-        for (int i = 0; i < 15; i++)
+        if (color != checkers[0].Color)
         {
-            this.checkers[i] = new Checker(color);
+            throw new ArgumentException("Wrong checkers passed!");
         }
-
+        this.checkers = checkers;
         this.DiceRolls = 0;
         this.CheckersColor = color;
     }

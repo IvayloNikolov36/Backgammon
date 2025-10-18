@@ -2,18 +2,31 @@
 
 public class Board
 {
-    private readonly CheckerPosition[] whiteCheckersPositions;
-    private readonly CheckerPosition[] blackCheckersPositions;
+    private readonly Point[] points;
+    private readonly Checker[] whiteCheckers;
+    private readonly Checker[] darkCheckers;
 
     public Board(
-        CheckerPosition[] whiteCheckersPositions,
-        CheckerPosition[] blackCheckersPositions)
+        Point[] points,
+        Checker[] whiteCheckers,
+        Checker[] blackCheckers)
     {
-        this.whiteCheckersPositions = whiteCheckersPositions;
-        this.blackCheckersPositions = blackCheckersPositions;
+        this.points = points;
+        this.whiteCheckers = whiteCheckers;
+        this.darkCheckers = blackCheckers;
     }
 
-    public CheckerPosition[] WhiteCheckersPositions => [.. whiteCheckersPositions];
+    public Point[] Points => [.. this.points];
 
-    public CheckerPosition[] BlackCheckersPositions => [.. blackCheckersPositions];
+    public Checker[] LightCheckers => [.. whiteCheckers];
+
+    public Checker[] DarkCheckers => [.. darkCheckers];
+
+    public Point GetPoint(int pointNumber)
+    {
+        Point? point = this.points.SingleOrDefault(p => p.Number == pointNumber);
+
+        return point
+            ?? throw new ArgumentException("Not existing point with given number!");
+    }
 }

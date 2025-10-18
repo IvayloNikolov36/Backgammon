@@ -9,39 +9,89 @@ public partial class Backgammon
 {
     private Board? board;
 
+    private Checker? selectedChecker = null;
+
     public Backgammon()
     {
-        GameVariant variant = GameVariant.Standard;
+        GameVariant variant = GameVariant.Rosespring;
 
-        CheckerPosition[] whiteCheckersPositions = CheckersPositions
+        Checker[] lightCheckers = CheckersPositions
             .GetInitialPositions(variant, Color.White);
 
-        CheckerPosition[] blackCheckersPositions = CheckersPositions
+        Checker[] darkCheckers = CheckersPositions
             .GetInitialPositions(variant, Color.Black);
 
-        this.board = new(whiteCheckersPositions, blackCheckersPositions);
+        Point[] points = ConstructPoints(lightCheckers, darkCheckers);
+
+        this.board = new(points, lightCheckers, darkCheckers);
 
         Game game = new(
             variant,
-            [new Player(Color.White), new Player(Color.Black)],
+            [
+                new Player(Color.White, lightCheckers),
+                new Player(Color.Black, darkCheckers)
+            ],
             this.board);
     }
-
+   
     protected override void OnInitialized()
     {
         base.OnInitialized();
     }
-
-    private int GetWhiteCheckersCount(int pointNumber)
+    
+    private void ClickChecker(Checker checker)
     {
-        return this.board!.WhiteCheckersPositions
-            .Count(p => p.PointNumber == pointNumber);
+        int pointNumber = checker.PointNumber;
+        Point point = this.board!.Points
+            .First(p => p.Number == pointNumber);
+
+        Checker checkerToMove = point.Checkers
+            .Where(ch => ch.Color == checker.Color)
+            .OrderByDescending(ch => ch.PointIndex)
+            .First();
+
+        this.selectedChecker = checkerToMove;
     }
 
-    private int GetBlackCheckersCount(int pointNumber)
+    private void SelectPoint(Point point)
     {
-        return this.board!.BlackCheckersPositions
-            .Count(p => p.PointNumber == pointNumber);
+        if (this.selectedChecker is null)
+        {
+            return;
+        }
+
+        if (this.selectedChecker.PointNumber == point.Number)
+        {
+            return;
+        }
+
+        // TODO: change the rule based on different games
+        // TODO: validate whether it can be placed based on the path and the dice combination...
+        if (!point.Checkers.Any() || point.Checkers.First().Color == this.selectedChecker.Color)
+        {
+            int sourcePoint = this.selectedChecker.PointNumber;
+            this.board!.GetPoint(sourcePoint).RemoveChecker();
+
+            point.PlaceChecker(this.selectedChecker);
+            this.selectedChecker = null;
+        }
+    }
+
+    private Point[] ConstructPoints(Checker[] lightCheckers, Checker[] darkCheckers)
+    {
+        Point[] boardPoints = new Point[24];
+        // TODO: const
+
+        for (int i = 1; i <= boardPoints.Length; i++)
+        {
+            IEnumerable<Checker> pointCheckers = lightCheckers.Where(c => c.PointNumber == i)
+                .Concat(darkCheckers.Where(c => c.PointNumber == i));
+
+            Point point = new(i, pointCheckers);
+            boardPoints[i - 1] = point;
+        }
+
+        return boardPoints;
     }
 
     private static string GetPointStyle(int index, PointSide pointSide)

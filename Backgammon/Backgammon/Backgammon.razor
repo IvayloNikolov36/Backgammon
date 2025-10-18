@@ -1,32 +1,33 @@
-﻿@using WpfBlazor.Enums;
+﻿@using WpfBlazor.Entities
+@using WpfBlazor.Enums;
 
 @{
     void RenderPoint(int pointNumber, PointSide pointSide)
     {
-        int whiteCheckers = this.GetWhiteCheckersCount(pointNumber);
-        int blackCheckers = this.GetBlackCheckersCount(pointNumber);
+        Point point = this.board!.GetPoint(pointNumber);
 
         string pointStyle = GetPointStyle(pointNumber, pointSide);
 
-        <div class="@(pointStyle)">
-            @if (whiteCheckers > 0 || blackCheckers > 0)
-            {
-                Color color = whiteCheckers > blackCheckers ? Color.White : Color.Black;
-                int cycleEnd = Math.Min(Math.Max(whiteCheckers, blackCheckers), 5);
-
-                @for (int c = 0; c < cycleEnd; c++)
+        <div @onclick="() => SelectPoint(point)">
+            <div class="@(pointStyle)">
+                @if (point.Checkers.Any())
                 {
-                    RenderChecker(color, c);
+                    int cycleEnd = Math.Min(point.Checkers.Count(), 5);
+                    @for (int c = 0; c < cycleEnd; c++)
+                    {
+                        RenderChecker(c, point.Checkers.Skip(c).Take(1).First());
+                    }
                 }
-            }
+            </div>
         </div>
     }
 
-    void RenderChecker(Color color, int index)
+    void RenderChecker(int index, Checker checker)
     {
-        string style = GetCheckerStyle(color);
+        string style = GetCheckerStyle(checker.Color);
 
         <div class="d-flex @(style) justify-content-center"
+             @onclick="() => ClickChecker(checker)"
              style="margin-top: calc(var(--point-height) - @(index + 1) * var(--cheker-size));">
             <div class="inner-@(style) align-self-center"></div>
         </div>
